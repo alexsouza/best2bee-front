@@ -1,0 +1,128 @@
+<h2 class="text-center">ORDER</h2>
+<ul>
+  <li *ngFor="let order of orders.orderItems">
+    {{ order.product.name }} - ${{ order.product.price }} x
+    {{ order.quantity }} pcs.
+  </li>
+</ul>
+<h3 class="text-right">Total amount: ${{ total }}</h3>
+
+<!-- payment info -->
+
+<h1>Payment Info</h1>
+<form #heroForm="ngForm">
+  <div class="form-group">
+    <label for="city">City</label>
+    <input
+      type="text"
+      class="form-control"
+      id="city"
+      required
+      [(ngModel)]="paymentDetails.city"
+      name="city"
+      #city="ngModel"
+    />
+    <div [hidden]="city.valid || city.pristine" class="alert alert-danger">
+      City is required
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="creditCardNumber">Credit Card Number</label>
+    <input
+      type="text"
+      class="form-control"
+      id="creditCardNumber"
+      required
+      [(ngModel)]="paymentDetails.creditCardNumber"
+      name="creditCardNumber"
+      #creditCardNumber="ngModel"
+    />
+    <div
+      [hidden]="creditCardNumber.valid || creditCardNumber.pristine"
+      class="alert alert-danger"
+    >
+      Credit card number is required
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="currency">Currency</label>
+    <input
+      type="text"
+      class="form-control"
+      id="currency"
+      [(ngModel)]="paymentDetails.currency"
+      name="currency"
+      #currency="ngModel"
+      required
+    />
+    <div
+      [hidden]="currency.valid || currency.pristine"
+      class="alert alert-danger"
+    >
+      Currency is required
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="street">Street</label>
+    <input
+      type="text"
+      class="form-control"
+      id="street"
+      [(ngModel)]="paymentDetails.street"
+      name="street"
+      #street="ngModel"
+      required
+    />
+    <div [hidden]="street.valid || street.pristine" class="alert alert-danger">
+      Street name is required
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="number">number</label>
+    <input
+      type="text"
+      class="form-control"
+      id="number"
+      [(ngModel)]="paymentDetails.number"
+      name="number"
+      #number="ngModel"
+      required
+    />
+    <div [hidden]="number.valid || number.pristine" class="alert alert-danger">
+      Street number name is required
+    </div>
+  </div>
+</form>
+
+<!-- //payment info -->
+
+<button
+  class="btn btn-primary btn-block"
+  (click)="pay()"
+  *ngIf="!paid && errors.length == 0"
+  [disabled]="!heroForm.form.valid"
+>
+  Pay
+</button>
+
+<div class="alert alert-success" role="alert" *ngIf="paid">
+  <strong>Good !</strong> Wait while we process the request...
+</div>
+
+<div class="alert alert-danger" role="alert" *ngIf="errors.length > 0">
+  <strong>Sorry!</strong> Errors found !
+  <ul>
+    <li *ngFor="let error of errors">
+      {{ error }}
+    </li>
+  </ul>
+</div>
+
+<div class="alert alert-primary" role="alert" *ngIf="paid">
+  <strong>Order Status real time here !</strong>
+  {{ status }}
+</div>
